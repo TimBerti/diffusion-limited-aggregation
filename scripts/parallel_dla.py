@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from joblib import Parallel, delayed
 
-runs = 12
+runs = 1000
 aggragations = 1000
 size = 150
 directions = np.array([[1, 0], [0, 1], [-1, 0], [0, -1]])
