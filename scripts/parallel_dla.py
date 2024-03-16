@@ -8,32 +8,16 @@ import pandas as pd
 from joblib import Parallel, delayed
 from tqdm import tqdm
 
+import os
+import sys
+sys.path.append(os.path.join(os.path.abspath(''), '.'))
+from utils.dla import get_neighbors, new_position, step
+
 data_dir = './data'
 runs = 1000
 aggragations = 1000
 size = 150
 directions = np.array([[1, 0], [0, 1], [-1, 0], [0, -1]])
-
-def get_neighbors(grid):
-    return np.roll(grid, 1, axis=0) + np.roll(grid, -1, axis=0) + np.roll(grid, 1, axis=1) + np.roll(grid, -1, axis=1)
-
-def new_position(grid):
-    x, y = size//2, size//2
-    while grid[x, y] == 1:
-        theta = np.random.rand() * 2 * np.pi
-        x = int(size//2 * np.cos(theta) + size//2)
-        y = int(size//2 * np.sin(theta) + size//2)
-    return np.array([x, y])
-
-def step(grid, current, neighbors):
-    direction = directions[np.random.randint(0, 4)]
-    new = current + direction
-    new = np.mod(new, size)
-    if neighbors[*new] > 0:
-        grid[*new] = 1
-        neighbors = get_neighbors(grid)
-        return grid, new_position(grid), neighbors, True
-    return grid, new, neighbors, False
 
 def run():
     grid = np.zeros((size,size))
