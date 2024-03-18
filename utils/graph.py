@@ -13,7 +13,7 @@ def encode_positions(positions, T=150, harmonics=3):
         ).reshape(-1, harmonics*2)
     return np.concatenate([x_embed, y_embed], axis=1)
 
-def to_graph(grid, distribution=None):
+def grid_to_graph(grid, distribution=None):
     neighbors = get_neighbors(grid)
     node_positions = np.argwhere(neighbors > 0)
 
@@ -29,3 +29,9 @@ def to_graph(grid, distribution=None):
     dist_grid = grid + distribution
     target_nodes = dist_grid[node_positions[:, 0], node_positions[:, 1]].reshape(-1, 1)
     return node_positions, edges, input_nodes, target_nodes
+
+def graph_to_grid(node_positions, nodes):
+    grid = np.zeros((150, 150))
+    for i, pos in enumerate(node_positions):
+        grid[pos[0], pos[1]] = nodes[i, -1]
+    return grid    
