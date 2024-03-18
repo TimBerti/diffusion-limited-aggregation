@@ -22,16 +22,22 @@ def grid_to_graph(grid, distribution=None):
     D = np.abs(X1 - X2) + np.abs(Y1 - Y2)
     edges = np.argwhere(D == 1)
 
+    mask = np.logical_and(
+        neighbors[node_positions[:, 0], node_positions[:, 1]] > 0, 
+        grid[node_positions[:, 0], node_positions[:, 1]] == 0
+        ).reshape(-1, 1)
+
     input_nodes = np.concatenate([encode_positions(node_positions), grid[node_positions[:, 0], node_positions[:, 1]].reshape(-1, 1)], axis=1)
     if distribution is None:
-        return node_positions, edges, input_nodes, None
+        return node_positions, edges, mask, input_nodes, None
 
     dist_grid = grid + distribution
     target_nodes = dist_grid[node_positions[:, 0], node_positions[:, 1]].reshape(-1, 1)
-    return node_positions, edges, input_nodes, target_nodes
+    return node_positions, edges, mask, input_nodes, target_nodes
 
 def graph_to_grid(node_positions, nodes):
     grid = np.zeros((150, 150))
     for i, pos in enumerate(node_positions):
         grid[pos[0], pos[1]] = nodes[i, -1]
-    return grid    
+    return grid
+    
