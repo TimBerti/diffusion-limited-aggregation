@@ -31,8 +31,7 @@ def grid_to_graph(grid, distribution=None):
     if distribution is None:
         return node_positions, edges, mask, input_nodes, None
 
-    dist_grid = grid + distribution
-    target_nodes = dist_grid[node_positions[:, 0], node_positions[:, 1]].reshape(-1, 1)
+    target_nodes = distribution[node_positions[:, 0], node_positions[:, 1]].reshape(-1, 1)
     return node_positions, edges, mask, input_nodes, target_nodes
 
 def graph_to_grid(node_positions, nodes):
