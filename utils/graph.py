@@ -36,7 +36,6 @@ def grid_to_graph(grid, distribution=None):
 
 def graph_to_grid(node_positions, nodes):
     grid = np.zeros((150, 150))
-    for i, pos in enumerate(node_positions):
-        grid[pos[0], pos[1]] = nodes[i, -1]
+    grid[node_positions[:, 0], node_positions[:, 1]] = nodes.flatten()
     return grid
     
