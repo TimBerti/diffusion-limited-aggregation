@@ -15,7 +15,7 @@ def encode_positions(positions, T=150, harmonics=3):
 
 def grid_to_graph(grid, distribution=None):
     neighbors = get_neighbors(grid)
-    node_positions = np.argwhere(neighbors > 0)
+    node_positions = np.argwhere(neighbors >= 1)
 
     X1, X2 = np.meshgrid(node_positions[:,0], node_positions[:,0])
     Y1, Y2 = np.meshgrid(node_positions[:,1], node_positions[:,1])
